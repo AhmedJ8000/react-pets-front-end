@@ -1,56 +1,52 @@
-import { useState, useEffect } from "react"
+import { useParams, useNavigate } from 'react-router'
+import { useEffect, useState } from 'react'
 import * as petService from '../../services/petService'
-import { useNavigate } from "react-router"
 
-const PetForm = (props) => {
-    const { petToUpdate } = props;
-
+const PetForm = ({ updatePets, updatePetInState }) => {
+    const { id } = useParams()
     const navigate = useNavigate()
-    const [formState, setFormState] = useState(petToUpdate ? petToUpdate : {
-        name: '', age: 0, breed: ''
+
+    const [formState, setFormState] = useState({
+        name: '',
+        age: 0,
+        breed: ''
     })
+
     useEffect(() => {
-        if (petToUpdate) {
-            setFormState(petToUpdate)
+        if (!id) return
+
+        const fetchPet = async () => {
+            const pet = await petService.show(id)
+            if (pet) setFormState(pet)
         }
-    }, [petToUpdate])
-    // THIS 100% OK TOO!!!!!
-    // const [name, setName] = useState('')
-    // const [age, setName] = useState(0)
-    // const [breed, setName] = useState('')
+
+        fetchPet()
+    }, [id])
 
     const handleChange = (evt) => {
         const { name, value } = evt.target
-        const newFormState = { ...formState, [name]: value }
-        setFormState(newFormState)
+        setFormState(prev => ({ ...prev, [name]: value }))
     }
 
     const handleSubmit = async (evt) => {
         evt.preventDefault()
 
-        const payload = { ...formState }
-        payload.age = Number(payload.age)
+        const payload = { ...formState, age: Number(formState.age) }
 
-
-        if (petToUpdate) {
-            const updatedPet = await petService.update(petToUpdate._id, payload)
+        if (id) {
+            const updatedPet = await petService.update(id, payload)
 
             if (updatedPet) {
+                updatePetInState(updatedPet)
                 navigate('/');
-            } else {
-                console.log('something went wrong');
             }
         }
-        else {
-            const newPetCreated = await petService.create(payload)
-
-
-
-            if (newPetCreated) {
-                updatePets(newPetCreated)
-                navigate('/')
-            } else {
-                console.log('something went wrong')
+        else
+        {
+            const newPetCreated = await petService.create(payload);
+            if (newPetCreated){
+                updatePets(newPetCreated);
+                navigate('/');
             }
         }
     }
@@ -76,3 +72,7 @@ const PetForm = (props) => {
 }
 
 export default PetForm
+// THIS 100% OK TOO!!!!!
+// const [name, setName] = useState('')
+// const [age, setName] = useState(0)
+// const [breed, setName] = useState('')

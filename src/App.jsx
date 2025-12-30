@@ -1,55 +1,57 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router'
-
+import { Routes, Route, Link } from 'react-router'
 import './App.css'
+
 // Services
 import * as petService from './services/petService'
+
 // Components
-import PetList from './components/PetList/PetList';
-import PetDetail from './components/PetDetail/PetDetail';
+import PetList from './components/PetList/PetList'
+import PetDetail from './components/PetDetail/PetDetail'
 import PetForm from './components/PetForm/PetForm'
-import { Link } from 'react-router';
 
 function App() {
-  const [pets, setPets] = useState([]);
-  const [petToUpdate, setPetToUpdate] = useState([]);
+  const [pets, setPets] = useState([])
 
-  // // we only want to fetch the pets list
-  // // ONCE, when the component first mounts
-  useEffect(()=>{
+  // Fetch pets ONCE on mount
+  useEffect(() => {
     const getAllPets = async () => {
-      try{
-        const pets = await petService.index()
-        setPets(pets)
-      }catch(error){
+      try {
+        const petsData = await petService.index()
+        setPets(petsData)
+      } catch (error) {
         console.log(error)
       }
     }
 
     getAllPets()
-  },[])
+  }, [])
 
-  const updatePets = (pet) => {
-    setPets([...pets, pet])
+  // Add newly created pet to state
+  const updatePets = (newPet) => {
+    setPets(prevPets => [...prevPets, newPet])
   }
 
-  const findPetToUpdate = (petId) => {
-    const foundPet = pets.find(pet => pet._id === petId);
-    setPetToUpdate(foundPet);
-  };
+  const updatePetInState = (updatedPet) => {
+  setPets(prevPets =>
+    prevPets.map(pet =>
+      pet._id === updatedPet._id ? updatedPet : pet
+    )
+  )
+}
 
   return (
     <>
-      <div>
-        <Link to="/">Home</Link> | {' '}
+      <nav>
+        <Link to="/">Home</Link> |{' '}
         <Link to="/pets/new">Create Pet</Link>
-      </div>
+      </nav>
 
       <Routes>
-        <Route path='/' element={ <PetList pets={pets} />} />
-        <Route path="/pets/:id" element={<PetDetail findPetToUpdate={findPetToUpdate}/>} />
-        <Route path="/pets/new" element={<PetForm updatePets={updatePets}/>} />
-        <Route path="/pets/:id/update" element={<PetForm petToUpdate={petToUpdate} updatePets={updatePets}/>} />
+        <Route path="/" element={<PetList pets={pets} />} />
+        <Route path="/pets/:id" element={<PetDetail />} />
+        <Route path="/pets/new" element={<PetForm updatePets={updatePets} />}/>
+        <Route path="/pets/:id/update" element={<PetForm updatePetInState={updatePetInState}/>}/>
       </Routes>
     </>
   )
