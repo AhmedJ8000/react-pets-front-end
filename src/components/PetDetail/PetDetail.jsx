@@ -1,0 +1,31 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
+// Services
+import * as petService from '../../services/petService';
+
+function PetDetail() {
+    const [pet, setPet] = useState(null);
+    const { id } = useParams();
+
+    useEffect(() => {
+        const getOnePet = async () => {
+            const pet = await petService.show(id);
+            setPet(pet);
+        };
+        if (id) getOnePet();
+    }, [id]);
+
+    if (!id) return <h2>Loading...</h2>;
+    if (!pet) return <h2>Loading...</h2>;
+
+    return (
+        <div>
+            <h1>Pet Details</h1>
+            <p>Name: {pet.name}</p>
+            <p>Age: {pet.age}</p>
+            <p>Breed: {pet.breed}</p>
+        </div>
+    );
+}
+
+export default PetDetail;

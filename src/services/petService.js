@@ -10,6 +10,26 @@ const index = async () => {
     }
 };
 
+const show = async (id) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/${id}`);
+        return response.data.pet
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const create = async (formData) => {
+    try {
+        const response = await axios.post(BASE_URL, formData);
+        return response.data.pet
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
-  index,
+    index,
+    show,
+    create
 };
