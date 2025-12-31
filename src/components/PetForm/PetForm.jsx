@@ -1,78 +1,77 @@
-import { useParams, useNavigate } from 'react-router'
-import { useEffect, useState } from 'react'
+import { useState } from "react"
 import * as petService from '../../services/petService'
+import { useNavigate } from "react-router"
 
-const PetForm = ({ updatePets, updatePetInState }) => {
-    const { id } = useParams()
-    const navigate = useNavigate()
+const PetForm = (props) => {
+  const {updatePets, petToUpdate} = props;
 
-    const [formState, setFormState] = useState({
-        name: '',
-        age: 0,
-        breed: ''
-    })
+  const navigate = useNavigate()
+  const [formState, setFormState] = useState(petToUpdate ? petToUpdate : {
+    name:'', age: 0, breed:''
+  })
+  // THIS 100% OK TOO!!!!!
+  // const [name, setName] = useState('')
+  // const [age, setName] = useState(0)
+  // const [breed, setName] = useState('')
 
-    useEffect(() => {
-        if (!id) return
+  const handleChange = (evt) => {
+    const { name, value } = evt.target
+    const newFormState = { ...formState, [name]: value }
+    setFormState(newFormState)
+  }
 
-        const fetchPet = async () => {
-            const pet = await petService.show(id)
-            if (pet) setFormState(pet)
-        }
+  const handleSubmit = async (evt) => {
+    evt.preventDefault()
 
-        fetchPet()
-    }, [id])
+    const payload = {...formState}
+    payload.age = Number(payload.age)
 
-    const handleChange = (evt) => {
-        const { name, value } = evt.target
-        setFormState(prev => ({ ...prev, [name]: value }))
+
+    if(petToUpdate){
+
+      const updatedPet = await petService.update(petToUpdate._id, payload)
+
+      if(updatedPet){
+        navigate('/')
+      }else{
+        console.log('something went wrong')
+      }
+
+    }else{
+
+      const newPetCreated = await petService.create(payload)
+
+      if(newPetCreated){
+        updatePets(newPetCreated)
+        navigate('/')
+      }else{
+        console.log('something went wrong')
+      }
+
     }
 
-    const handleSubmit = async (evt) => {
-        evt.preventDefault()
 
-        const payload = { ...formState, age: Number(formState.age) }
 
-        if (id) {
-            const updatedPet = await petService.update(id, payload)
+  }
 
-            if (updatedPet) {
-                updatePetInState(updatedPet)
-                navigate('/');
-            }
-        }
-        else
-        {
-            const newPetCreated = await petService.create(payload);
-            if (newPetCreated){
-                updatePets(newPetCreated);
-                navigate('/');
-            }
-        }
-    }
+  return (
+    <div className="shadedBorder">
+      <h1>Pet Form</h1>
 
-    return (
-        <div>
-            <h1>Pet Form</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name</label>
+        <input type="text" name="name" id="name" value={formState.name} onChange={handleChange}/>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" id="name" value={formState.name} onChange={handleChange} />
+        <label htmlFor="age">Age</label>
+        <input type="number" name="age" id="age" min={0} value={formState.age} onChange={handleChange}/>
 
-                <label htmlFor="age">Age</label>
-                <input type="number" name="age" id="age" min={0} value={formState.age} onChange={handleChange} />
+        <label htmlFor="breed">Breed</label>
+        <input type="text" id="breed" name="breed" value={formState.breed} onChange={handleChange}/>
 
-                <label htmlFor="breed">Breed</label>
-                <input type="text" id="breed" name="breed" value={formState.breed} onChange={handleChange} />
-
-                <button type='submit'>Save</button>
-            </form>
-        </div>
-    )
+        <button type='submit'>Save</button>
+      </form>
+    </div>
+  )
 }
 
 export default PetForm
-// THIS 100% OK TOO!!!!!
-// const [name, setName] = useState('')
-// const [age, setName] = useState(0)
-// const [breed, setName] = useState('')

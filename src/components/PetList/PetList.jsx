@@ -1,12 +1,12 @@
 import { Link } from 'react-router';
 const PetList = ({ pets }) => {
-    
-    if (!pets){
+
+    if (!pets) {
         return <h1>Loading....</h1>
     }
 
     return (
-        <div>
+        <div className="shadedBorder">
             <h1>Pet List</h1>
             {!pets.length ? <div>No Pets Found</div> : <ul>
                 {pets.map(
