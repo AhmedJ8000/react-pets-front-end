@@ -1,0 +1,36 @@
+/* Product card */
+
+#allProductsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.product-card {
+  border: 2px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #313131;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img:hover {
+  cursor: pointer;
+}
+
+.product-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-card h3 {
+  margin-bottom: 10px;
+}

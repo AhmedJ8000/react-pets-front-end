@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router'
+import './styles/index.css';
 
 import './App.css'
 // Services

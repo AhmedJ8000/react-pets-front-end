@@ -1,0 +1,26 @@
+/* Navbar */
+#navbarBox a {
+  text-decoration: none;
+  font-family: 'Play', sans-serif;
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+}
+
+nav {
+  text-align: right;
+}
+
+nav a {
+  color: red;
+  font-weight: bold;
+  font-family: 'Play', sans-serif;
+  text-decoration: none;
+}
+
+nav#navbarBox {
+  border: 2px solid rgb(52, 52, 52);
+  background-color: rgb(38, 38, 38);
+  display: flex;
+  justify-content: space-around;
+  border-radius: 5px;
+}

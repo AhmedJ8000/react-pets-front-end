@@ -1,0 +1,71 @@
+/* Responsive */
+@media (max-width: 768px) {
+  .edit-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .edit-image img {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .edit-fields {
+    width: 100%;
+  }
+}
+
+input,
+textarea,
+select {
+  background-color: #171717;
+  /* black background */
+  color: #fff;
+  /* white text */
+  border: 1px solid #555;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+/* Focus state */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .product-show-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-show-image img {
+    max-width: 100%;
+  }
+
+  .product-show-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .shadedBorder form {
+    gap: 12px;
+  }
+
+  .shadedBorder form input {
+    font-size: 0.95rem;
+  }
+
+  .shadedBorder form button {
+    font-size: 0.95rem;
+  }
+}

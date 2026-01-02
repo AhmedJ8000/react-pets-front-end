@@ -1,0 +1,16 @@
+/* Layout */
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: url(https://static.vecteezy.com/system/resources/previews/009/467/976/large_2x/abstract-futuristic-gaming-background-for-offline-twitch-stream-vector.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Play', sans-serif;
+  color: white;
+}

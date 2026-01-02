@@ -1,0 +1,18 @@
+/* Typography */
+
+.shadedBorder {
+  background-color: rgba(0, 0, 0, 0.796);
+  border-radius: 10px;
+}
+
+h1 {
+  padding-left: 15px;
+}
+
+h2{
+  padding-left: 15px;
+}
+
+h2#specsHeader{
+padding-left: 0;
+}

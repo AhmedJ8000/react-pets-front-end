@@ -1,0 +1,109 @@
+/* buttons */
+button {
+  font-family: 'Play', sans-serif;
+  position: relative;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #000;
+  /* black button */
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 1;
+  overflow: hidden;
+  transition: transform 0.3s, color 0.3s;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Create the animated border with pseudo-element */
+button::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  /* border thickness */
+  border-radius: 0.34em;
+  /* slightly bigger for border */
+  background: repeating-linear-gradient(to right,
+      #fd004c 2.62em,
+      #fe9000 5.25em,
+      #fff020 7.87em,
+      #3edf4b 10.5em,
+      #3363ff 15.75em,
+      #fd004c 18.75em);
+  background-size: 1000em;
+  z-index: -2;
+  animation: border-slide 120s linear infinite;
+}
+
+/* Create black overlay to keep interior black */
+button::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background-color: #000;
+  border-radius: 6px;
+  z-index: -1;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.product-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+button.danger {
+  background-color: #7a0000;
+}
+
+button.danger::after {
+  background-color: #7a0000;
+}
+
+button.danger:hover {
+  transform: scale(1.05);
+}
+
+/* Danger button */
+button.danger {
+  background-color: #7a0000;
+}
+
+button.danger::after {
+  background-color: #7a0000;
+}
+
+#add-button {
+padding-left:10px;
+}
+
+.shadedBorder form button {
+  margin-top: 15px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #222;
+  text-transform: uppercase;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.shadedBorder form button:hover {
+  background-color: #ff4444;
+  transform: scale(1.05);
+}
